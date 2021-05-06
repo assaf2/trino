@@ -140,7 +140,7 @@ public class PushProjectionIntoTableScan
 
         // Translate partial connector projections back to new partial projections
         List<Expression> newPartialProjections = newConnectorPartialProjections.stream()
-                .map(expression -> ConnectorExpressionTranslator.translate(expression, variableMappings, new LiteralEncoder(metadata)))
+                .map(expression -> ConnectorExpressionTranslator.translate(expression, metadata, new LiteralEncoder(metadata), Optional.of(variableMappings)))
                 .collect(toImmutableList());
 
         // Map internal node references to new partial projections

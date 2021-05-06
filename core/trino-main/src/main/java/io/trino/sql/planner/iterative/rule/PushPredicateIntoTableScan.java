@@ -28,11 +28,14 @@ import io.trino.operator.scalar.TryFunction;
 import io.trino.spi.connector.ColumnHandle;
 import io.trino.spi.connector.Constraint;
 import io.trino.spi.connector.ConstraintApplicationResult;
+import io.trino.spi.expression.ConnectorExpression;
 import io.trino.spi.predicate.NullableValue;
 import io.trino.spi.predicate.TupleDomain;
 import io.trino.spi.type.TypeOperators;
+import io.trino.sql.planner.ConnectorExpressionPredicateTranslator;
 import io.trino.sql.planner.DomainTranslator;
 import io.trino.sql.planner.ExpressionInterpreter;
+import io.trino.sql.planner.LiteralEncoder;
 import io.trino.sql.planner.LookupSymbolResolver;
 import io.trino.sql.planner.PlanNodeIdAllocator;
 import io.trino.sql.planner.Symbol;
@@ -58,6 +61,7 @@ import static com.google.common.collect.Sets.intersection;
 import static io.trino.SystemSessionProperties.isAllowPushdownIntoConnectors;
 import static io.trino.matching.Capture.newCapture;
 import static io.trino.metadata.TableLayoutResult.computeEnforced;
+import static io.trino.spi.expression.Constant.TRUE_CONSTANT;
 import static io.trino.sql.ExpressionUtils.combineConjuncts;
 import static io.trino.sql.ExpressionUtils.filterDeterministicConjuncts;
 import static io.trino.sql.ExpressionUtils.filterNonDeterministicConjuncts;
@@ -182,6 +186,10 @@ public class PushPredicateIntoTableScan
                 .transform(node.getAssignments()::get)
                 .intersect(node.getEnforcedConstraint());
 
+        boolean supportsConnectorExpressionPushdown = metadata.supportsConnectorExpressionPushdown(session, node.getTable());
+        ConnectorExpressionPredicateTranslator.ExtractionResult connectorExpressionExtractionResult =
+                extractConnectorExpression(session, types, typeAnalyzer, decomposedPredicate.getRemainingExpression(), supportsConnectorExpressionPushdown);
+
         Map<ColumnHandle, Symbol> assignments = ImmutableBiMap.copyOf(node.getAssignments()).inverse();
 
         Constraint constraint;
@@ -199,22 +207,24 @@ public class PushPredicateIntoTableScan
                             // Simplify the tuple domain to avoid creating an expression with too many nodes,
                             // which would be expensive to evaluate in the call to isCandidate below.
                             domainTranslator.toPredicate(newDomain.simplify().transform(assignments::get))));
-            constraint = new Constraint(newDomain, evaluator::isCandidate, evaluator.getArguments());
+            constraint = new Constraint(newDomain, Optional.of(evaluator::isCandidate), Optional.of(evaluator.getArguments()), connectorExpressionExtractionResult.getConnectorExpression());
         }
         else {
             // Currently, invoking the expression interpreter is very expensive.
             // TODO invoke the interpreter unconditionally when the interpreter becomes cheap enough.
-            constraint = new Constraint(newDomain);
+            constraint = new Constraint(newDomain, Optional.empty(), Optional.empty(), connectorExpressionExtractionResult.getConnectorExpression());
         }
 
         TableHandle newTable;
         Optional<TablePartitioning> newTablePartitioning;
         TupleDomain<ColumnHandle> remainingFilter;
+        ConnectorExpression remainingConnectorExpression = connectorExpressionExtractionResult.getConnectorExpression();
         if (!metadata.usesLegacyTableLayouts(session, node.getTable())) {
             // check if new domain is wider than domain already provided by table scan
             if (constraint.predicate().isEmpty() && newDomain.contains(node.getEnforcedConstraint())) {
                 Expression resultingPredicate = createResultingPredicate(
                         metadata,
+                        TRUE_LITERAL,
                         TRUE_LITERAL,
                         nonDeterministicPredicate,
                         decomposedPredicate.getRemainingExpression());
@@ -248,6 +258,9 @@ public class PushPredicateIntoTableScan
             }
 
             remainingFilter = result.get().getRemainingFilter();
+            if (supportsConnectorExpressionPushdown) {
+                remainingConnectorExpression = result.get().getRemainingConnectorExpression();
+            }
         }
         else {
             Optional<TableLayoutResult> layout = metadata.getLayout(
@@ -281,14 +294,24 @@ public class PushPredicateIntoTableScan
         Expression resultingPredicate = createResultingPredicate(
                 metadata,
                 domainTranslator.toPredicate(remainingFilter.transform(assignments::get)),
+                ConnectorExpressionPredicateTranslator.toPredicate(remainingConnectorExpression, new LiteralEncoder(metadata), metadata),
                 nonDeterministicPredicate,
-                decomposedPredicate.getRemainingExpression());
+                connectorExpressionExtractionResult.getRemainingExpression());
 
         if (!TRUE_LITERAL.equals(resultingPredicate)) {
             return Optional.of(new FilterNode(filterNode.getId(), tableScan, resultingPredicate));
         }
 
         return Optional.of(tableScan);
+    }
+
+    private static ConnectorExpressionPredicateTranslator.ExtractionResult extractConnectorExpression(
+            Session session, TypeProvider types, TypeAnalyzer typeAnalyzer, Expression expression, boolean supportsConnectorExpressionPushdown)
+    {
+        if (supportsConnectorExpressionPushdown) {
+            return ConnectorExpressionPredicateTranslator.translate(session, expression, typeAnalyzer, types);
+        }
+        return new ConnectorExpressionPredicateTranslator.ExtractionResult(TRUE_CONSTANT, expression);
     }
 
     // PushPredicateIntoTableScan might be executed after AddExchanges and DetermineTableScanNodePartitioning.
@@ -312,6 +335,7 @@ public class PushPredicateIntoTableScan
     static Expression createResultingPredicate(
             Metadata metadata,
             Expression unenforcedConstraints,
+            Expression unenforcedConnectorExpression,
             Expression nonDeterministicPredicate,
             Expression remainingDecomposedPredicate)
     {
@@ -323,7 +347,7 @@ public class PushPredicateIntoTableScan
         // * Short of implementing the previous bullet point, the current order of non-deterministic expressions
         //   and non-TupleDomain-expressible expressions should be retained. Changing the order can lead
         //   to failures of previously successful queries.
-        return combineConjuncts(metadata, unenforcedConstraints, nonDeterministicPredicate, remainingDecomposedPredicate);
+        return combineConjuncts(metadata, unenforcedConstraints, unenforcedConnectorExpression, nonDeterministicPredicate, remainingDecomposedPredicate);
     }
 
     private static class LayoutConstraintEvaluator

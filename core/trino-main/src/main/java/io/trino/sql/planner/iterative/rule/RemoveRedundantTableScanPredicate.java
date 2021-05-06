@@ -150,6 +150,7 @@ public class RemoveRedundantTableScanPredicate
         Expression resultingPredicate = createResultingPredicate(
                 metadata,
                 domainTranslator.toPredicate(unenforcedDomain.transform(assignments::get)),
+                TRUE_LITERAL,
                 nonDeterministicPredicate,
                 decomposedPredicate.getRemainingExpression());
 
