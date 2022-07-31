@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.trino.type;
+package io.trino.plugin.base.util;
 
 import io.trino.spi.block.Block;
 import io.trino.spi.type.DateTimeEncoding;

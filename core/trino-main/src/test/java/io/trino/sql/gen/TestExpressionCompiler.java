@@ -97,7 +97,7 @@ import static io.trino.sql.tree.Extract.Field.TIMEZONE_HOUR;
 import static io.trino.sql.tree.Extract.Field.TIMEZONE_MINUTE;
 import static io.trino.testing.DateTimeTestingUtils.sqlTimestampOf;
 import static io.trino.testing.SqlVarbinaryTestingUtil.sqlVarbinary;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_MILLISECOND;
 import static io.trino.type.JsonType.JSON;
 import static io.trino.type.UnknownType.UNKNOWN;
 import static io.trino.util.StructuralTestUtil.mapType;

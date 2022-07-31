@@ -14,37 +14,31 @@
 package io.trino.operator.scalar.timestamp;
 
 import io.airlift.slice.Slice;
+import io.trino.plugin.base.cast.TimestampToVarchar;
 import io.trino.spi.function.LiteralParameter;
 import io.trino.spi.function.LiteralParameters;
 import io.trino.spi.function.ScalarOperator;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimestamp;
-import io.trino.type.DateTimes;
 
-import java.time.format.DateTimeFormatter;
-
-import static io.airlift.slice.Slices.utf8Slice;
 import static io.trino.spi.function.OperatorType.CAST;
-import static java.time.ZoneOffset.UTC;
 
 @ScalarOperator(CAST)
 public final class TimestampToVarcharCast
 {
-    private static final DateTimeFormatter TIMESTAMP_FORMATTER = DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm:ss");
-
     private TimestampToVarcharCast() {}
 
     @LiteralParameters({"x", "p"})
     @SqlType("varchar(x)")
     public static Slice cast(@LiteralParameter("p") long precision, @SqlType("timestamp(p)") long epochMicros)
     {
-        return utf8Slice(DateTimes.formatTimestamp((int) precision, epochMicros, 0, UTC, TIMESTAMP_FORMATTER));
+        return TimestampToVarchar.cast(precision, epochMicros);
     }
 
     @LiteralParameters({"x", "p"})
     @SqlType("varchar(x)")
     public static Slice cast(@LiteralParameter("p") long precision, @SqlType("timestamp(p)") LongTimestamp timestamp)
     {
-        return utf8Slice(DateTimes.formatTimestamp((int) precision, timestamp.getEpochMicros(), timestamp.getPicosOfMicro(), UTC, TIMESTAMP_FORMATTER));
+        return TimestampToVarchar.cast(precision, timestamp);
     }
 }

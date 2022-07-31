@@ -21,16 +21,16 @@ import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
 import io.trino.spi.type.LongTimestamp;
 
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_MICROSECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MICROSECOND;
+import static io.trino.plugin.base.util.DateTimes.getOffsetMinutes;
+import static io.trino.plugin.base.util.DateTimes.rescale;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.packTimeWithTimeZone;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_MICROSECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MICROSECOND;
-import static io.trino.type.DateTimes.getOffsetMinutes;
-import static io.trino.type.DateTimes.rescale;
-import static io.trino.type.DateTimes.round;
 import static java.lang.Math.floorMod;
 
 @ScalarOperator(CAST)

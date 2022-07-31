@@ -20,8 +20,8 @@ import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
 import io.trino.spi.type.StandardTypes;
 
+import static io.trino.plugin.base.util.DateTimes.MINUTES_PER_HOUR;
 import static io.trino.spi.type.DateTimeEncoding.unpackOffsetMinutes;
-import static io.trino.type.DateTimes.MINUTES_PER_HOUR;
 
 @Description("Time zone minute of the given time")
 @ScalarFunction("timezone_minute")

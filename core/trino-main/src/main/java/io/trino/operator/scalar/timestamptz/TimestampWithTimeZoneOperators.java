@@ -23,13 +23,13 @@ import io.trino.type.Constraint;
 import org.joda.time.DateTimeField;
 import org.joda.time.chrono.ISOChronology;
 
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.roundToNearest;
 import static io.trino.spi.function.OperatorType.ADD;
 import static io.trino.spi.function.OperatorType.SUBTRACT;
 import static io.trino.spi.type.DateTimeEncoding.packDateTimeWithZone;
 import static io.trino.spi.type.DateTimeEncoding.unpackMillisUtc;
 import static io.trino.spi.type.DateTimeEncoding.unpackZoneKey;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.roundToNearest;
 
 @SuppressWarnings("UtilityClassWithoutPrivateConstructor")
 public final class TimestampWithTimeZoneOperators

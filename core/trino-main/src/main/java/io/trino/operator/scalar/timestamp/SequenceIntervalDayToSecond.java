@@ -24,10 +24,10 @@ import io.trino.spi.type.TimestampType;
 
 import static io.trino.operator.scalar.SequenceFunction.checkMaxEntry;
 import static io.trino.operator.scalar.SequenceFunction.checkValidStep;
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_MILLISECOND;
 import static io.trino.spi.type.TimestampType.MAX_SHORT_PRECISION;
 import static io.trino.spi.type.TimestampType.createTimestampType;
 import static io.trino.spi.type.TimestampTypes.writeLongTimestamp;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_MILLISECOND;
 import static java.lang.Math.multiplyExact;
 import static java.lang.Math.toIntExact;
 

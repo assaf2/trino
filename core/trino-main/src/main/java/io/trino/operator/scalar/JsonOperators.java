@@ -31,6 +31,7 @@ import io.trino.util.JsonCastException;
 import java.io.IOException;
 
 import static com.fasterxml.jackson.core.JsonFactory.Feature.CANONICALIZE_FIELD_NAMES;
+import static io.trino.plugin.base.util.DateTimeUtils.printDate;
 import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.StandardErrorCode.NUMERIC_VALUE_OUT_OF_RANGE;
 import static io.trino.spi.function.OperatorType.CAST;
@@ -44,7 +45,6 @@ import static io.trino.spi.type.StandardTypes.REAL;
 import static io.trino.spi.type.StandardTypes.SMALLINT;
 import static io.trino.spi.type.StandardTypes.TINYINT;
 import static io.trino.spi.type.StandardTypes.VARCHAR;
-import static io.trino.util.DateTimeUtils.printDate;
 import static io.trino.util.Failures.checkCondition;
 import static io.trino.util.JsonUtil.createJsonGenerator;
 import static io.trino.util.JsonUtil.createJsonParser;

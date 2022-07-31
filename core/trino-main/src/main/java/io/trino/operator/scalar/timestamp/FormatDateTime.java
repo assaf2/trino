@@ -27,9 +27,9 @@ import org.joda.time.chrono.ISOChronology;
 import org.joda.time.format.DateTimeFormat;
 
 import static io.airlift.slice.Slices.utf8Slice;
+import static io.trino.plugin.base.util.DateTimes.round;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 import static io.trino.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
-import static io.trino.type.DateTimes.round;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
 
 @Description("Formats the given time by the given format")
 @ScalarFunction("format_datetime")

@@ -23,7 +23,7 @@ import io.trino.spi.type.StandardTypes;
 import org.joda.time.chrono.ISOChronology;
 
 import static io.trino.operator.scalar.DateTimeFunctions.getTimestampField;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 
 @Description("Difference of the given times in the given unit")
 @ScalarFunction("date_diff")

@@ -25,6 +25,8 @@ import io.trino.annotation.UsedByGeneratedCode;
 import io.trino.metadata.PolymorphicScalarFunctionBuilder;
 import io.trino.metadata.Signature;
 import io.trino.metadata.SqlScalarFunction;
+import io.trino.plugin.base.cast.FromVarchar;
+import io.trino.plugin.base.cast.ToVarchar;
 import io.trino.spi.TrinoException;
 import io.trino.spi.type.DecimalConversions;
 import io.trino.spi.type.DecimalType;
@@ -38,7 +40,6 @@ import io.trino.util.JsonCastException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import static io.airlift.slice.Slices.utf8Slice;
 import static io.trino.operator.scalar.JsonOperators.JSON_FACTORY;
 import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.function.InvocationConvention.InvocationReturnConvention.FAIL_ON_NULL;
@@ -69,8 +70,6 @@ import static io.trino.util.JsonUtil.currentTokenAsShortDecimal;
 import static java.lang.Math.multiplyExact;
 import static java.lang.Math.toIntExact;
 import static java.lang.String.format;
-import static java.math.RoundingMode.HALF_UP;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class DecimalCasts
 {
@@ -480,63 +479,25 @@ public final class DecimalCasts
     @UsedByGeneratedCode
     public static Slice shortDecimalToVarchar(long decimal, long scale, long varcharLength)
     {
-        String stringValue = Decimals.toString(decimal, DecimalConversions.intScale(scale));
-        // String is all-ASCII, so String.length() here returns actual code points count
-        if (stringValue.length() <= varcharLength) {
-            return utf8Slice(stringValue);
-        }
-
-        throw new TrinoException(INVALID_CAST_ARGUMENT, format("Value %s cannot be represented as varchar(%s)", stringValue, varcharLength));
+        return ToVarchar.fromShortDecimal(decimal, scale, varcharLength);
     }
 
     @UsedByGeneratedCode
     public static Slice longDecimalToVarchar(Int128 decimal, long scale, long varcharLength)
     {
-        String stringValue = Decimals.toString(decimal, DecimalConversions.intScale(scale));
-        // String is all-ASCII, so String.length() here returns actual code points count
-        if (stringValue.length() <= varcharLength) {
-            return utf8Slice(stringValue);
-        }
-
-        throw new TrinoException(INVALID_CAST_ARGUMENT, format("Value %s cannot be represented as varchar(%s)", stringValue, varcharLength));
+        return ToVarchar.fromLongDecimal(decimal, scale, varcharLength);
     }
 
     @UsedByGeneratedCode
     public static long varcharToShortDecimal(Slice value, long precision, long scale, long tenToScale)
     {
-        BigDecimal result;
-        String stringValue = value.toString(UTF_8);
-        try {
-            result = new BigDecimal(stringValue).setScale(DecimalConversions.intScale(scale), HALF_UP);
-        }
-        catch (NumberFormatException e) {
-            throw new TrinoException(INVALID_CAST_ARGUMENT, format("Cannot cast VARCHAR '%s' to DECIMAL(%s, %s). Value is not a number.", stringValue, precision, scale));
-        }
-
-        if (overflows(result, precision)) {
-            throw new TrinoException(INVALID_CAST_ARGUMENT, format("Cannot cast VARCHAR '%s' to DECIMAL(%s, %s). Value too large.", stringValue, precision, scale));
-        }
-
-        return result.unscaledValue().longValue();
+        return FromVarchar.toShortDecimal(value, precision, scale, tenToScale);
     }
 
     @UsedByGeneratedCode
     public static Int128 varcharToLongDecimal(Slice value, long precision, long scale, Int128 tenToScale)
     {
-        BigDecimal result;
-        String stringValue = value.toString(UTF_8);
-        try {
-            result = new BigDecimal(stringValue).setScale(DecimalConversions.intScale(scale), HALF_UP);
-        }
-        catch (NumberFormatException e) {
-            throw new TrinoException(INVALID_CAST_ARGUMENT, format("Cannot cast VARCHAR '%s' to DECIMAL(%s, %s). Value is not a number.", stringValue, precision, scale));
-        }
-
-        if (overflows(result, precision)) {
-            throw new TrinoException(INVALID_CAST_ARGUMENT, format("Cannot cast VARCHAR '%s' to DECIMAL(%s, %s). Value too large.", stringValue, precision, scale));
-        }
-
-        return Int128.valueOf(result.unscaledValue());
+        return FromVarchar.toLongDecimal(value, precision, scale, tenToScale);
     }
 
     @UsedByGeneratedCode

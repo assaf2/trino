@@ -23,15 +23,15 @@ import io.trino.type.Constraint;
 import org.joda.time.DateTimeField;
 import org.joda.time.chrono.ISOChronology;
 
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.getMicrosOfMilli;
+import static io.trino.plugin.base.util.DateTimes.rescale;
+import static io.trino.plugin.base.util.DateTimes.round;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMillisToMicros;
 import static io.trino.spi.function.OperatorType.ADD;
 import static io.trino.spi.function.OperatorType.SUBTRACT;
 import static io.trino.spi.type.TimestampType.MAX_SHORT_PRECISION;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.getMicrosOfMilli;
-import static io.trino.type.DateTimes.rescale;
-import static io.trino.type.DateTimes.round;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
-import static io.trino.type.DateTimes.scaleEpochMillisToMicros;
 import static java.lang.Math.multiplyExact;
 
 @SuppressWarnings("UtilityClassWithoutPrivateConstructor")

@@ -19,6 +19,9 @@ import io.trino.spi.function.ScalarOperator;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
 
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_NANOSECOND;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.packTimeWithTimeZone;
 import static io.trino.spi.type.DateTimeEncoding.unpackOffsetMinutes;
@@ -26,9 +29,6 @@ import static io.trino.spi.type.DateTimeEncoding.unpackTimeNanos;
 import static io.trino.spi.type.TimeWithTimeZoneType.MAX_PRECISION;
 import static io.trino.spi.type.TimeWithTimeZoneType.MAX_SHORT_PRECISION;
 import static io.trino.spi.type.Timestamps.NANOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_NANOSECOND;
-import static io.trino.type.DateTimes.round;
 
 @ScalarOperator(CAST)
 public final class TimeWithTimeZoneToTimeWithTimeZoneCast

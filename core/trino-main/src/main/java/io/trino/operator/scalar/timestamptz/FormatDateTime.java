@@ -26,10 +26,10 @@ import org.joda.time.chrono.ISOChronology;
 import org.joda.time.format.DateTimeFormat;
 
 import static io.airlift.slice.Slices.utf8Slice;
+import static io.trino.plugin.base.util.DateTimes.roundToEpochMillis;
 import static io.trino.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
 import static io.trino.spi.type.DateTimeEncoding.unpackMillisUtc;
 import static io.trino.spi.type.TimeZoneKey.getTimeZoneKey;
-import static io.trino.type.DateTimes.roundToEpochMillis;
 import static io.trino.util.DateTimeZoneIndex.getChronology;
 import static io.trino.util.DateTimeZoneIndex.unpackChronology;
 

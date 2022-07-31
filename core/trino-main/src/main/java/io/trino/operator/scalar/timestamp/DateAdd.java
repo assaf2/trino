@@ -24,10 +24,10 @@ import io.trino.spi.type.LongTimestamp;
 import io.trino.spi.type.StandardTypes;
 import org.joda.time.chrono.ISOChronology;
 
-import static io.trino.type.DateTimes.getMicrosOfMilli;
-import static io.trino.type.DateTimes.round;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
-import static io.trino.type.DateTimes.scaleEpochMillisToMicros;
+import static io.trino.plugin.base.util.DateTimes.getMicrosOfMilli;
+import static io.trino.plugin.base.util.DateTimes.round;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMillisToMicros;
 import static java.lang.Math.toIntExact;
 
 @Description("Add the specified amount of time to the given timestamp")

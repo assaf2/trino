@@ -23,9 +23,9 @@ import io.trino.spi.type.LongTimestampWithTimeZone;
 import io.trino.spi.type.StandardTypes;
 
 import static io.trino.operator.scalar.DateTimeFunctions.getTimestampField;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.type.DateTimeEncoding.unpackMillisUtc;
 import static io.trino.spi.type.DateTimeEncoding.updateMillisUtc;
-import static io.trino.type.DateTimes.round;
 import static io.trino.util.DateTimeZoneIndex.unpackChronology;
 import static java.lang.Math.toIntExact;
 

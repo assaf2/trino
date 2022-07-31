@@ -18,6 +18,7 @@ import com.google.common.primitives.Shorts;
 import com.google.common.primitives.SignedBytes;
 import io.airlift.slice.Slice;
 import io.trino.operator.scalar.MathFunctions;
+import io.trino.plugin.base.cast.ToVarchar;
 import io.trino.spi.TrinoException;
 import io.trino.spi.function.LiteralParameter;
 import io.trino.spi.function.LiteralParameters;
@@ -25,10 +26,7 @@ import io.trino.spi.function.ScalarOperator;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.StandardTypes;
 
-import java.text.DecimalFormat;
-
 import static com.google.common.base.Preconditions.checkState;
-import static io.airlift.slice.Slices.utf8Slice;
 import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.StandardErrorCode.NUMERIC_VALUE_OUT_OF_RANGE;
 import static io.trino.spi.function.OperatorType.ADD;
@@ -54,8 +52,6 @@ public final class DoubleOperators
     private static final double MAX_SHORT_PLUS_ONE_AS_DOUBLE = 0x1p15;
     private static final double MIN_BYTE_AS_DOUBLE = -0x1p7;
     private static final double MAX_BYTE_PLUS_ONE_AS_DOUBLE = 0x1p7;
-
-    private static final ThreadLocal<DecimalFormat> FORMAT = ThreadLocal.withInitial(() -> new DecimalFormat("0.0###################E0"));
 
     private DoubleOperators()
     {
@@ -179,35 +175,7 @@ public final class DoubleOperators
     @SqlType("varchar(x)")
     public static Slice castToVarchar(@LiteralParameter("x") long x, @SqlType(StandardTypes.DOUBLE) double value)
     {
-        String stringValue;
-
-        // handle positive and negative 0
-        if (value == 0e0) {
-            if (1e0 / value > 0) {
-                stringValue = "0E0";
-            }
-            else {
-                stringValue = "-0E0";
-            }
-        }
-        else if (Double.isInfinite(value)) {
-            if (value > 0) {
-                stringValue = "Infinity";
-            }
-            else {
-                stringValue = "-Infinity";
-            }
-        }
-        else {
-            stringValue = FORMAT.get().format(value);
-        }
-
-        // String is all-ASCII, so String.length() here returns actual code points count
-        if (stringValue.length() <= x) {
-            return utf8Slice(stringValue);
-        }
-
-        throw new TrinoException(INVALID_CAST_ARGUMENT, format("Value %s (%s) cannot be represented as varchar(%s)", value, stringValue, x));
+        return ToVarchar.fromDouble(x, value);
     }
 
     @ScalarOperator(SATURATED_FLOOR_CAST)

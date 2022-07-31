@@ -61,7 +61,7 @@ import static io.trino.spi.type.VarcharType.createUnboundedVarcharType;
 import static io.trino.testing.StructuralTestUtil.arrayBlockOf;
 import static io.trino.testing.StructuralTestUtil.mapBlockOf;
 import static io.trino.testing.StructuralTestUtil.rowBlockOf;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_MILLISECOND;
 import static java.lang.Double.doubleToLongBits;
 import static java.lang.Float.floatToRawIntBits;
 import static java.lang.Math.toIntExact;

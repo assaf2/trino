@@ -14,7 +14,7 @@
 package io.trino.type;
 
 import io.airlift.slice.Slice;
-import io.airlift.slice.Slices;
+import io.trino.plugin.base.cast.ToVarchar;
 import io.trino.spi.function.LiteralParameters;
 import io.trino.spi.function.ScalarFunction;
 import io.trino.spi.function.ScalarOperator;
@@ -23,13 +23,9 @@ import io.trino.spi.type.StandardTypes;
 
 import static io.trino.spi.function.OperatorType.CAST;
 import static java.lang.Float.floatToRawIntBits;
-import static java.nio.charset.StandardCharsets.US_ASCII;
 
 public final class BooleanOperators
 {
-    private static final Slice TRUE = Slices.copiedBuffer("true", US_ASCII);
-    private static final Slice FALSE = Slices.copiedBuffer("false", US_ASCII);
-
     private BooleanOperators()
     {
     }
@@ -81,7 +77,7 @@ public final class BooleanOperators
     @SqlType("varchar(x)")
     public static Slice castToVarchar(@SqlType(StandardTypes.BOOLEAN) boolean value)
     {
-        return value ? TRUE : FALSE;
+        return ToVarchar.fromBoolean(value);
     }
 
     @SqlType(StandardTypes.BOOLEAN)

@@ -21,7 +21,7 @@ import io.trino.spi.type.LongTimestamp;
 import io.trino.spi.type.StandardTypes;
 import org.joda.time.chrono.ISOChronology;
 
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 
 @Description("Year of the ISO week of the given timestamp")
 @ScalarFunction(value = "year_of_week", alias = "yow")

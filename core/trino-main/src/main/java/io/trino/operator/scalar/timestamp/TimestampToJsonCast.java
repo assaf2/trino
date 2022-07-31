@@ -28,10 +28,10 @@ import io.trino.spi.type.LongTimestamp;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
+import static io.trino.plugin.base.util.DateTimes.formatTimestamp;
 import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.StandardTypes.JSON;
-import static io.trino.type.DateTimes.formatTimestamp;
 import static io.trino.util.JsonUtil.JSON_FACTORY;
 import static io.trino.util.JsonUtil.createJsonGenerator;
 import static java.lang.String.format;

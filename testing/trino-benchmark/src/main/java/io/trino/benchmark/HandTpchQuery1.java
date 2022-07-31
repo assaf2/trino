@@ -22,6 +22,7 @@ import io.trino.operator.HashAggregationOperator.HashAggregationOperatorFactory;
 import io.trino.operator.Operator;
 import io.trino.operator.OperatorContext;
 import io.trino.operator.OperatorFactory;
+import io.trino.plugin.base.util.DateTimeUtils;
 import io.trino.spi.Page;
 import io.trino.spi.PageBuilder;
 import io.trino.spi.block.Block;
@@ -30,7 +31,6 @@ import io.trino.sql.gen.JoinCompiler;
 import io.trino.sql.planner.plan.AggregationNode.Step;
 import io.trino.sql.planner.plan.PlanNodeId;
 import io.trino.testing.LocalQueryRunner;
-import io.trino.util.DateTimeUtils;
 
 import java.util.List;
 import java.util.Optional;

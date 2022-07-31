@@ -21,7 +21,7 @@ import io.trino.spi.type.LongTimestamp;
 import io.trino.spi.type.StandardTypes;
 import org.joda.time.chrono.ISOChronology;
 
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Description("Last day of the month of the given timestamp")

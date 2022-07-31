@@ -23,13 +23,13 @@ import io.trino.operator.project.PageFilter;
 import io.trino.operator.project.PageProcessor;
 import io.trino.operator.project.PageProjection;
 import io.trino.operator.project.SelectedPositions;
+import io.trino.plugin.base.util.DateTimeUtils;
 import io.trino.spi.Page;
 import io.trino.spi.block.Block;
 import io.trino.spi.connector.ConnectorSession;
 import io.trino.sql.gen.PageFunctionCompiler;
 import io.trino.sql.planner.plan.PlanNodeId;
 import io.trino.testing.LocalQueryRunner;
-import io.trino.util.DateTimeUtils;
 
 import java.util.List;
 import java.util.Optional;

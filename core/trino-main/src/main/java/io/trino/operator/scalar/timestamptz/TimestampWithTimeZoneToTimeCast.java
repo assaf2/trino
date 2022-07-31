@@ -22,14 +22,14 @@ import io.trino.spi.type.LongTimestampWithTimeZone;
 import java.time.Instant;
 import java.time.ZoneId;
 
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.rescale;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.unpackMillisUtc;
 import static io.trino.spi.type.DateTimeEncoding.unpackZoneKey;
 import static io.trino.spi.type.TimeType.MAX_PRECISION;
 import static io.trino.spi.type.TimeZoneKey.getTimeZoneKey;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.rescale;
-import static io.trino.type.DateTimes.round;
 
 @ScalarOperator(CAST)
 public final class TimestampWithTimeZoneToTimeCast

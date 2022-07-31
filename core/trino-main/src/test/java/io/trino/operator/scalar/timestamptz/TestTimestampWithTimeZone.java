@@ -29,8 +29,8 @@ import java.util.function.BiFunction;
 import static io.trino.spi.type.TimeZoneKey.getTimeZoneKey;
 import static io.trino.spi.type.TimestampWithTimeZoneType.createTimestampWithTimeZoneType;
 import static io.trino.spi.type.VarcharType.createVarcharType;
-import static io.trino.type.DateTimes.MILLISECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.MILLISECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

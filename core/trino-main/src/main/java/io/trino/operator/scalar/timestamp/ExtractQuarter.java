@@ -22,7 +22,7 @@ import io.trino.spi.type.StandardTypes;
 import org.joda.time.chrono.ISOChronology;
 
 import static io.trino.operator.scalar.QuarterOfYearDateTimeField.QUARTER_OF_YEAR;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 
 @Description("Quarter of the year of the given timestamp")
 @ScalarFunction("quarter")

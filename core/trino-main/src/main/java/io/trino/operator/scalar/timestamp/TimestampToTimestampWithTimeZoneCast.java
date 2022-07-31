@@ -22,14 +22,14 @@ import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimestamp;
 import io.trino.spi.type.LongTimestampWithTimeZone;
 
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MICROSECOND;
+import static io.trino.plugin.base.util.DateTimes.getMicrosOfMilli;
+import static io.trino.plugin.base.util.DateTimes.round;
+import static io.trino.plugin.base.util.DateTimes.roundToNearest;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.packDateTimeWithZone;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MICROSECOND;
-import static io.trino.type.DateTimes.getMicrosOfMilli;
-import static io.trino.type.DateTimes.round;
-import static io.trino.type.DateTimes.roundToNearest;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
 import static io.trino.util.DateTimeZoneIndex.getChronology;
 
 @ScalarOperator(CAST)

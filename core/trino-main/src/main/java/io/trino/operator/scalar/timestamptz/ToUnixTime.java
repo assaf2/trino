@@ -19,9 +19,9 @@ import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimestampWithTimeZone;
 import io.trino.spi.type.StandardTypes;
 
+import static io.trino.plugin.base.util.DateTimes.MILLISECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
 import static io.trino.spi.type.DateTimeEncoding.unpackMillisUtc;
-import static io.trino.type.DateTimes.MILLISECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
 
 @ScalarFunction("to_unixtime")
 public final class ToUnixTime

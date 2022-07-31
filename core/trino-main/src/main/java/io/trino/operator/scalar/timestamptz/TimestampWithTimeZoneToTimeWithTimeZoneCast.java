@@ -13,6 +13,7 @@
  */
 package io.trino.operator.scalar.timestamptz;
 
+import io.trino.plugin.base.util.DateTimes;
 import io.trino.spi.function.LiteralParameter;
 import io.trino.spi.function.LiteralParameters;
 import io.trino.spi.function.ScalarOperator;
@@ -20,20 +21,19 @@ import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
 import io.trino.spi.type.LongTimestampWithTimeZone;
 import io.trino.spi.type.TimeZoneKey;
-import io.trino.type.DateTimes;
 
 import java.time.Instant;
 
+import static io.trino.plugin.base.util.DateTimes.MILLISECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.rescale;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.packTimeWithTimeZone;
 import static io.trino.spi.type.DateTimeEncoding.unpackMillisUtc;
 import static io.trino.spi.type.DateTimeEncoding.unpackZoneKey;
 import static io.trino.spi.type.TimeZoneKey.getTimeZoneKey;
-import static io.trino.type.DateTimes.MILLISECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.rescale;
-import static io.trino.type.DateTimes.round;
 import static io.trino.util.DateTimeZoneIndex.getChronology;
 import static java.lang.Math.floorMod;
 

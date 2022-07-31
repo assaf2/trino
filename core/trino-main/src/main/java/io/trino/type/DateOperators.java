@@ -14,7 +14,8 @@
 package io.trino.type;
 
 import io.airlift.slice.Slice;
-import io.trino.spi.TrinoException;
+import io.trino.plugin.base.cast.FromVarchar;
+import io.trino.plugin.base.cast.ToVarchar;
 import io.trino.spi.function.LiteralParameter;
 import io.trino.spi.function.LiteralParameters;
 import io.trino.spi.function.ScalarFunction;
@@ -22,13 +23,7 @@ import io.trino.spi.function.ScalarOperator;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.StandardTypes;
 
-import static io.airlift.slice.SliceUtf8.trim;
-import static io.airlift.slice.Slices.utf8Slice;
-import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.function.OperatorType.CAST;
-import static io.trino.util.DateTimeUtils.parseDate;
-import static io.trino.util.DateTimeUtils.printDate;
-import static java.lang.String.format;
 
 public final class DateOperators
 {
@@ -39,13 +34,7 @@ public final class DateOperators
     @SqlType("varchar(x)")
     public static Slice castToSlice(@LiteralParameter("x") long x, @SqlType(StandardTypes.DATE) long value)
     {
-        String stringValue = printDate((int) value);
-        // String is all-ASCII, so String.length() here returns actual code points count
-        if (stringValue.length() <= x) {
-            return utf8Slice(stringValue);
-        }
-
-        throw new TrinoException(INVALID_CAST_ARGUMENT, format("Value %s cannot be represented as varchar(%s)", stringValue, x));
+        return ToVarchar.fromDate(x, value);
     }
 
     @ScalarFunction("date")
@@ -54,11 +43,6 @@ public final class DateOperators
     @SqlType(StandardTypes.DATE)
     public static long castFromSlice(@SqlType("varchar(x)") Slice value)
     {
-        try {
-            return parseDate(trim(value).toStringUtf8());
-        }
-        catch (IllegalArgumentException | ArithmeticException e) {
-            throw new TrinoException(INVALID_CAST_ARGUMENT, "Value cannot be cast to date: " + value.toStringUtf8(), e);
-        }
+        return FromVarchar.toDate(value);
     }
 }

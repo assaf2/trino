@@ -27,7 +27,7 @@ import java.time.ZonedDateTime;
 import java.util.function.BiFunction;
 
 import static io.trino.spi.type.TimeWithTimeZoneType.createTimeWithTimeZoneType;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

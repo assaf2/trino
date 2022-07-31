@@ -21,15 +21,15 @@ import io.trino.spi.function.ScalarFunction;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
 
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_HOUR;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MINUTE;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_NANOSECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
 import static io.trino.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
 import static io.trino.spi.type.DateTimeEncoding.packTimeWithTimeZone;
 import static io.trino.spi.type.DateTimeEncoding.unpackOffsetMinutes;
 import static io.trino.spi.type.DateTimeEncoding.unpackTimeNanos;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_HOUR;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MINUTE;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_NANOSECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
 import static java.util.Locale.ENGLISH;
 
 @Description("Truncate to the specified precision")

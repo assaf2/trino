@@ -41,7 +41,7 @@ import static io.trino.plugin.hive.util.HiveUtil.getDeserializer;
 import static io.trino.plugin.hive.util.HiveUtil.getInputFormat;
 import static io.trino.plugin.hive.util.HiveUtil.parseHiveTimestamp;
 import static io.trino.plugin.hive.util.HiveUtil.toPartitionValues;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_MILLISECOND;
 import static org.apache.hadoop.hive.metastore.api.hive_metastoreConstants.FILE_INPUT_FORMAT;
 import static org.apache.hadoop.hive.serde.serdeConstants.SERIALIZATION_CLASS;
 import static org.apache.hadoop.hive.serde.serdeConstants.SERIALIZATION_FORMAT;

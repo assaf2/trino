@@ -20,10 +20,10 @@ import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
 import io.trino.spi.type.StandardTypes;
 
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.SECONDS_PER_MINUTE;
 import static io.trino.spi.type.DateTimeEncoding.unpackTimeNanos;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.SECONDS_PER_MINUTE;
 
 @Description("Second of the minute of the given time")
 @ScalarFunction("second")

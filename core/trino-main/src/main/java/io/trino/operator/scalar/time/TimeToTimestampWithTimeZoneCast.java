@@ -24,14 +24,14 @@ import io.trino.spi.type.TimeType;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+import static io.trino.plugin.base.util.DateTimes.MILLISECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.SECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.rescale;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.packDateTimeWithZone;
-import static io.trino.type.DateTimes.MILLISECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.SECONDS_PER_DAY;
-import static io.trino.type.DateTimes.rescale;
-import static io.trino.type.DateTimes.round;
 import static java.lang.Math.multiplyExact;
 
 @ScalarOperator(CAST)

@@ -21,18 +21,18 @@ import io.trino.spi.type.LongTimeWithTimeZone;
 import io.trino.spi.type.StandardTypes;
 import io.trino.type.Constraint;
 
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_MINUTE;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MINUTE;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_NANOSECOND;
+import static io.trino.plugin.base.util.DateTimes.rescaleWithRounding;
 import static io.trino.spi.function.OperatorType.ADD;
 import static io.trino.spi.function.OperatorType.SUBTRACT;
 import static io.trino.spi.type.DateTimeEncoding.packTimeWithTimeZone;
 import static io.trino.spi.type.DateTimeEncoding.unpackOffsetMinutes;
 import static io.trino.spi.type.DateTimeEncoding.unpackTimeNanos;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_MINUTE;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MINUTE;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_NANOSECOND;
-import static io.trino.type.DateTimes.rescaleWithRounding;
 import static java.lang.Math.floorMod;
 
 @SuppressWarnings("UtilityClassWithoutPrivateConstructor")

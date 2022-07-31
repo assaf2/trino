@@ -26,12 +26,12 @@ import io.trino.spi.type.TimeZoneNotSupportedException;
 import org.joda.time.DateTimeZone;
 
 import static com.google.common.base.Verify.verify;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MICROSECOND;
+import static io.trino.plugin.base.util.DateTimes.getMicrosOfMilli;
+import static io.trino.plugin.base.util.DateTimes.scaleEpochMicrosToMillis;
 import static io.trino.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
 import static io.trino.spi.type.DateTimeEncoding.packDateTimeWithZone;
 import static io.trino.spi.type.TimeZoneKey.getTimeZoneKey;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MICROSECOND;
-import static io.trino.type.DateTimes.getMicrosOfMilli;
-import static io.trino.type.DateTimes.scaleEpochMicrosToMillis;
 import static io.trino.util.DateTimeZoneIndex.getDateTimeZone;
 import static java.lang.String.format;
 import static org.joda.time.DateTimeZone.UTC;

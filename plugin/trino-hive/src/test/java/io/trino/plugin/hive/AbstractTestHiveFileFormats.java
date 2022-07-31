@@ -116,7 +116,7 @@ import static io.trino.testing.StructuralTestUtil.decimalArrayBlockOf;
 import static io.trino.testing.StructuralTestUtil.decimalMapBlockOf;
 import static io.trino.testing.StructuralTestUtil.mapBlockOf;
 import static io.trino.testing.StructuralTestUtil.rowBlockOf;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_MILLISECOND;
 import static io.trino.type.InternalTypeManager.TESTING_TYPE_MANAGER;
 import static java.lang.Float.intBitsToFloat;
 import static java.lang.Math.floorDiv;

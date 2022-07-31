@@ -23,15 +23,15 @@ import io.trino.spi.type.LongTimeWithTimeZone;
 import io.trino.spi.type.StandardTypes;
 
 import static io.trino.operator.scalar.timetz.TimeWithTimeZoneOperators.normalize;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_HOUR;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_MINUTE;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_HOUR;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MILLISECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MINUTE;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
 import static io.trino.spi.StandardErrorCode.INVALID_FUNCTION_ARGUMENT;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_HOUR;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_MINUTE;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_HOUR;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MILLISECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MINUTE;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
 import static java.util.Locale.ENGLISH;
 
 @Description("Difference of the given times in the given unit")

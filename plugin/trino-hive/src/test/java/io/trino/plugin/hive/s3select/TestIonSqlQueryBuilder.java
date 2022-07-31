@@ -15,6 +15,7 @@ package io.trino.plugin.hive.s3select;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import io.trino.plugin.base.util.DateTimeUtils;
 import io.trino.plugin.hive.HiveColumnHandle;
 import io.trino.plugin.hive.HiveType;
 import io.trino.spi.predicate.Domain;
@@ -23,7 +24,6 @@ import io.trino.spi.predicate.SortedRangeSet;
 import io.trino.spi.predicate.TupleDomain;
 import io.trino.spi.type.DecimalType;
 import io.trino.spi.type.TypeManager;
-import io.trino.util.DateTimeUtils;
 import org.testng.annotations.Test;
 
 import java.util.List;

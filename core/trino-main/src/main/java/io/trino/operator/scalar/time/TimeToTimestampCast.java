@@ -22,12 +22,12 @@ import io.trino.spi.type.LongTimestamp;
 
 import java.time.LocalDate;
 
+import static io.trino.plugin.base.util.DateTimes.MICROSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_MICROSECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.SECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.function.OperatorType.CAST;
-import static io.trino.type.DateTimes.MICROSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_MICROSECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.SECONDS_PER_DAY;
-import static io.trino.type.DateTimes.round;
 import static java.lang.Math.multiplyExact;
 
 @ScalarOperator(CAST)

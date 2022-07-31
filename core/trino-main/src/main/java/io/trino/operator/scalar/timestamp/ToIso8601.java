@@ -24,7 +24,7 @@ import io.trino.type.Constraint;
 import java.time.format.DateTimeFormatter;
 
 import static io.airlift.slice.Slices.utf8Slice;
-import static io.trino.type.DateTimes.formatTimestamp;
+import static io.trino.plugin.base.util.DateTimes.formatTimestamp;
 import static java.time.ZoneOffset.UTC;
 
 @ScalarFunction("to_iso8601")

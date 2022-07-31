@@ -14,6 +14,7 @@
 package io.trino.operator.scalar.timetz;
 
 import io.airlift.slice.Slice;
+import io.trino.plugin.base.util.DateTimes;
 import io.trino.spi.TrinoException;
 import io.trino.spi.connector.ConnectorSession;
 import io.trino.spi.function.LiteralParameter;
@@ -21,26 +22,25 @@ import io.trino.spi.function.LiteralParameters;
 import io.trino.spi.function.ScalarOperator;
 import io.trino.spi.function.SqlType;
 import io.trino.spi.type.LongTimeWithTimeZone;
-import io.trino.type.DateTimes;
 
 import java.util.regex.Matcher;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.trino.operator.scalar.StringFunctions.trim;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.NANOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_DAY;
+import static io.trino.plugin.base.util.DateTimes.PICOSECONDS_PER_SECOND;
+import static io.trino.plugin.base.util.DateTimes.calculateOffsetMinutes;
+import static io.trino.plugin.base.util.DateTimes.getOffsetMinutes;
+import static io.trino.plugin.base.util.DateTimes.isValidOffset;
+import static io.trino.plugin.base.util.DateTimes.rescale;
+import static io.trino.plugin.base.util.DateTimes.round;
 import static io.trino.spi.StandardErrorCode.INVALID_CAST_ARGUMENT;
 import static io.trino.spi.function.OperatorType.CAST;
 import static io.trino.spi.type.DateTimeEncoding.packTimeWithTimeZone;
 import static io.trino.spi.type.TimeWithTimeZoneType.MAX_PRECISION;
 import static io.trino.spi.type.TimeWithTimeZoneType.MAX_SHORT_PRECISION;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.NANOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_DAY;
-import static io.trino.type.DateTimes.PICOSECONDS_PER_SECOND;
-import static io.trino.type.DateTimes.calculateOffsetMinutes;
-import static io.trino.type.DateTimes.getOffsetMinutes;
-import static io.trino.type.DateTimes.isValidOffset;
-import static io.trino.type.DateTimes.rescale;
-import static io.trino.type.DateTimes.round;
 
 @ScalarOperator(CAST)
 public final class VarcharToTimeWithTimeZoneCast

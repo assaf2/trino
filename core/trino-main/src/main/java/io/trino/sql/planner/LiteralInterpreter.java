@@ -51,14 +51,14 @@ import java.util.function.Function;
 
 import static io.airlift.slice.Slices.utf8Slice;
 import static io.trino.collect.cache.SafeCaches.buildNonEvictableCache;
+import static io.trino.plugin.base.util.DateTimes.parseTime;
+import static io.trino.plugin.base.util.DateTimes.parseTimeWithTimeZone;
+import static io.trino.plugin.base.util.DateTimes.parseTimestamp;
+import static io.trino.plugin.base.util.DateTimes.parseTimestampWithTimeZone;
 import static io.trino.spi.StandardErrorCode.INVALID_LITERAL;
 import static io.trino.spi.type.VarcharType.VARCHAR;
 import static io.trino.sql.analyzer.SemanticExceptions.semanticException;
 import static io.trino.sql.analyzer.TypeSignatureProvider.fromTypes;
-import static io.trino.type.DateTimes.parseTime;
-import static io.trino.type.DateTimes.parseTimeWithTimeZone;
-import static io.trino.type.DateTimes.parseTimestamp;
-import static io.trino.type.DateTimes.parseTimestampWithTimeZone;
 import static io.trino.type.JsonType.JSON;
 import static io.trino.util.DateTimeUtils.parseDayTimeInterval;
 import static io.trino.util.DateTimeUtils.parseYearMonthInterval;
