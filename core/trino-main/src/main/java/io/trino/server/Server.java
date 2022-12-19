@@ -171,7 +171,7 @@ public class Server
             injector.getInstance(StartupStatus.class).startupComplete();
 
             log.info("======== SERVER STARTED ========");
-            log.info("======== ASSAF 4k ========");
+            log.info("======== ASSAF 2k ========");
         }
         catch (ApplicationConfigurationException e) {
             StringBuilder message = new StringBuilder();
