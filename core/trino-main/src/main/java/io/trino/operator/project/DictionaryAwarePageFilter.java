@@ -13,6 +13,7 @@
  */
 package io.trino.operator.project;
 
+import io.airlift.log.Logger;
 import io.trino.spi.Page;
 import io.trino.spi.block.Block;
 import io.trino.spi.block.DictionaryBlock;
@@ -27,6 +28,7 @@ import static java.util.Objects.requireNonNull;
 public class DictionaryAwarePageFilter
         implements PageFilter
 {
+    private static final Logger LOGGER = Logger.get(DictionaryAwarePageFilter.class);
     private final PageFilter filter;
 
     private Block lastInputDictionary;
@@ -100,6 +102,7 @@ public class DictionaryAwarePageFilter
 
         if (shouldProcessDictionary) {
             try {
+                LOGGER.warn("DEBUG DEBUG :: dictionary=%s", dictionary);
                 SelectedPositions selectedDictionaryPositions = filter.filter(session, new Page(dictionary));
                 lastOutputDictionary = Optional.of(toPositionsMask(selectedDictionaryPositions, dictionary.getPositionCount()));
             }
