@@ -102,9 +102,7 @@ public class DictionaryAwarePageFilter
 
         if (shouldProcessDictionary) {
             try {
-                LOGGER.warn("DEBUG DEBUG :: dictionary=%s", dictionary);
-                SelectedPositions selectedDictionaryPositions = filter.filter(session, new Page(dictionary));
-                lastOutputDictionary = Optional.of(toPositionsMask(selectedDictionaryPositions, dictionary.getPositionCount()));
+                lastOutputDictionary = Optional.of(getDictionaryPositionsMask(session, new Page(dictionary)));
             }
             catch (Exception ignored) {
                 // Processing of dictionary failed, but we ignore the exception here
@@ -134,8 +132,10 @@ public class DictionaryAwarePageFilter
         return SelectedPositions.positionsList(positions, 0, selectedCount);
     }
 
-    private static boolean[] toPositionsMask(SelectedPositions selectedPositions, int positionCount)
+    private boolean[] getDictionaryPositionsMask(ConnectorSession session, Page dictionary)
     {
+        SelectedPositions selectedPositions = filter.filter(session, dictionary);
+        int positionCount = dictionary.getPositionCount();
         boolean[] positionsMask = new boolean[positionCount];
         if (selectedPositions.isList()) {
             int offset = selectedPositions.getOffset();
